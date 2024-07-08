@@ -2,8 +2,8 @@ import { GoogleMap, Marker } from '@react-google-maps/api'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 
-import { addMarker } from '../redux/ducks/markers';
-import { MarkerStateType } from '../../types';
+import { addMarker, updateMarker } from '../redux/ducks/markers';
+import { MarkerStateType, MarkerType } from '../../types';
 
 const containerStyle = {
   width: '100%',
@@ -69,6 +69,20 @@ const Map = (props: mapProps) => {
     }
   }
 
+  const handleDrag = (e: any, marker: MarkerType) => {
+    const lat = e.latLng.lat()
+    const lng = e.latLng.lng()
+    dispatch(updateMarker(marker.id, {
+      id: marker.id,
+      name: marker.name,
+      position: {
+        lat: lat,
+        lng: lng
+      },
+    }));
+    
+  }
+
   return (
     <div className='h-[100vh]' >
       <GoogleMap
@@ -80,7 +94,14 @@ const Map = (props: mapProps) => {
         options={defoultOptions}
         onClick={onClick}
       >
-        {markers.map((marker) => <Marker position={marker.position} label={{ text: marker.name }} key={marker.id} />)}
+        {markers.map((marker) =>
+          <Marker
+            position={marker.position}
+            label={{ text: marker.name }}
+            key={marker.id}
+            draggable={true}
+            onDragEnd={(e) => { handleDrag(e, marker) }} />
+        )}
       </GoogleMap>
     </div>
   )
