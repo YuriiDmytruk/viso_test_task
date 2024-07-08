@@ -1,4 +1,5 @@
 import { MarkerType, MarkerStateType, addMarkerType, deleteMarkerType, deleteAllMarkersType, updateMarkerType } from '../../../types';
+import { updateMarkerDB, deleteMarkerDB, deleteAllMarkersDB } from '../../fireBase/actions';
 
 export const ADD_MARKER = 'ADD_MARKER'
 export const DELETE_MARKER = 'DELETE_MARKER'
@@ -15,13 +16,17 @@ export const markersReducer = (
 ): MarkerStateType => {
     switch (action.type) {
         case ADD_MARKER:
-            console.log(state.markers)
-            return {markers: [...state.markers, {...action.marker, id: state.markers.length}]}
+            const newMarker = {...action.marker, id: state.markers.length}
+            updateMarkerDB(newMarker)
+            return {markers: [...state.markers, newMarker]}
         case DELETE_MARKER:
+            deleteMarkerDB(action.id)
             return {markers: state.markers.filter((marker) => marker.id !== action.id)}
         case DELETE_ALL_MARKERS:
+            deleteAllMarkersDB()
             return { markers: [] }
         case UPDATE_MARKER:
+            updateMarkerDB(action.marker)
             return {markers: [...state.markers.filter((marker) => marker.id !== action.id), action.marker]}
         default:
             return state;

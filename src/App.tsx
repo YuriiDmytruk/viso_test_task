@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useJsApiLoader } from '@react-google-maps/api';
 
+
 import Map from './components/Map'
 import { MODES } from './components/Map'
 import MarkersControlPanel from './components/MarkersControlPanel';
@@ -10,7 +11,7 @@ import MarkersControlPanel from './components/MarkersControlPanel';
 const App = () => {
 
   const [mode, setMode] = useState(MODES.MOVE)
-
+  
   const toggleMode = useCallback(() => {
     switch (mode) {
       case MODES.MOVE:
