@@ -27,6 +27,11 @@ export type deleteAllMarkersType = {
     type: string,
 }
 
+export type addMarkersType = {
+    type: string,
+    markers: MarkerType[]
+}
+
 export type updateMarkerType = {
     type: string,
     id: number,

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, remove } from 'firebase/database'
+import { getDatabase, ref, set, remove, get, child } from 'firebase/database'
 
 import { MarkerType } from "../../types";
 
@@ -17,10 +17,35 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 const db = getDatabase();
 
+export const getMarkers = async (): Promise<MarkerType[]> => {
+    try {
+      const dbRef = ref(db);
+      const snapshot = await get(child(dbRef, 'markers/'));
+  
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const procesedData = data.map((e: any) => {return {
+            id: e.id,
+            name: e.name,
+            position: {
+                lat: e.location.lat,
+                lng: e.location.lng
+            }
+        }})
+        return procesedData;
+      } else {
+        return [] ;
+      }
+    } catch (error) {
+      console.error("Error getting markers:", error);
+      throw error;
+    }
+  };
 
 export const updateMarkerDB = async (marker: MarkerType) => {
     try {
         await set(ref(db, `markers/${marker.id}`), {
+            id: marker.id,
             name: marker.name,
             location: marker.position,
             timestamp: Date.now()
