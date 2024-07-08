@@ -6,8 +6,8 @@ import { addMarker } from '../redux/ducks/markers';
 import { MarkerStateType } from '../../types';
 
 const containerStyle = {
-  width: '500px',
-  height: '500px'
+  width: '100%',
+  height: '100%'
 };
 
 const defoultOptions = {
@@ -65,22 +65,23 @@ const Map = (props: mapProps) => {
           lng: lng
         },
       }));
-      console.log({ lat, lng })
     }
   }
 
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={10}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-      options={defoultOptions}
-      onClick={onClick}
-    >
-      {markers.map((marker) => <Marker position={marker.position}/>)}
-    </GoogleMap>
+    <div className='h-[100vh]' >
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={10}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        options={defoultOptions}
+        onClick={onClick}
+      >
+        {markers.map((marker) => <Marker position={marker.position} label={{ text: marker.name }} key={marker.id} />)}
+      </GoogleMap>
+    </div>
   )
 }
 
