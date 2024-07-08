@@ -57,9 +57,10 @@ const Map = (props: mapProps) => {
     if (props.mode === MODES.SET_MARKER) {
       const lat = loc.latLng.lat()
       const lng = loc.latLng.lng()
+      const enteredName = prompt('Please enter name for marker') || 'Not Named Marker'
       dispatch(addMarker({
-        id: 0,
-        name: "NEW",
+        id: -1,
+        name: enteredName,
         position: {
           lat: lat,
           lng: lng

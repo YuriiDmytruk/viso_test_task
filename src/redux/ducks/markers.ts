@@ -15,16 +15,13 @@ export const markersReducer = (
 ): MarkerStateType => {
     switch (action.type) {
         case ADD_MARKER:
-            return {markers: [...state.markers, action.marker]}
+            return {markers: [...state.markers, {...action.marker, id: state.markers.length}]}
         case DELETE_MARKER:
-
-            return state
+            return {markers: state.markers.filter((marker) => marker.id !== action.id)}
         case DELETE_ALL_MARKERS:
-
             return { markers: [] }
         case UPDATE_MARKER:
-
-            return state
+            return {markers: [...state.markers.filter((marker) => marker.id !== action.id), action.marker]}
         default:
             return state;
     }

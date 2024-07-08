@@ -22,7 +22,7 @@ const MarkersControlPanel = (props: MarkersControlPanelProps) => {
       <div className='grid h-[95%] w-[90%] grid-rows-[5%_95%]'>
         <div className='flex w-[100%] font-bold'>
           <div className='text-center w-full select-none cursor-pointer hover:underline'
-          onClick={() => {dispatch(deleteAllMarkers())}}
+            onClick={() => { dispatch(deleteAllMarkers()) }}
           >
             Clear all
           </div>
@@ -35,8 +35,7 @@ const MarkersControlPanel = (props: MarkersControlPanelProps) => {
         </div>
 
         <div className='overflow-auto no-scrollbar'>
-        {markers.map((marker) => <Marker  marker={marker} key={marker.id} />)}
-
+          {markers.map((marker) => <Marker marker={marker} key={marker.id} />)}
         </div>
 
       </div>
