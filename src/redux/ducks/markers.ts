@@ -15,6 +15,7 @@ export const markersReducer = (
 ): MarkerStateType => {
     switch (action.type) {
         case ADD_MARKER:
+            console.log(state.markers)
             return {markers: [...state.markers, {...action.marker, id: state.markers.length}]}
         case DELETE_MARKER:
             return {markers: state.markers.filter((marker) => marker.id !== action.id)}

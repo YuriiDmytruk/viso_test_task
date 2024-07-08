@@ -5,6 +5,7 @@
   "dependencies": {
     "@googlemaps/markerclusterer": "^2.5.3",
     "@react-google-maps/api": "^2.19.3",
+    "@react-google-maps/marker-clusterer": "^2.19.2",
     "@reduxjs/toolkit": "^2.2.6",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
