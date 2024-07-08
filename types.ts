@@ -9,6 +9,13 @@ export type Position = {
     lng: number,
 }
 
+export type MarkerTypeDB = {
+    id: number,
+    name: string,
+    location: Position,
+    timestamp: number
+}
+
 export type MarkerStateType = {
     markers: MarkerType[],
 }

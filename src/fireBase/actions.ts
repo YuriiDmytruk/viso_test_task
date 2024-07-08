@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, remove, get, child } from 'firebase/database'
 
-import { MarkerType } from "../../types";
+import { MarkerType, MarkerTypeDB } from "../../types";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCw8WJBWLsS1I0QRMfHkZ5yQbqI1pRohWE",
@@ -24,7 +24,7 @@ export const getMarkers = async (): Promise<MarkerType[]> => {
   
       if (snapshot.exists()) {
         const data = snapshot.val();
-        const procesedData = data.map((e: any) => {return {
+        const procesedData = data.map((e: MarkerTypeDB) => {return {
             id: e.id,
             name: e.name,
             position: {

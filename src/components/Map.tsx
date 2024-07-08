@@ -42,19 +42,19 @@ const MapTest = (props: mapProps) => {
     const markers = useSelector((state: MarkerStateType) => state.markers);
 
 
-    const mapRef = React.useRef(undefined)
+    const mapRef = React.useRef<google.maps.Map | null>(null);
     const dispatch = useDispatch();
 
-    const onLoad = React.useCallback(function callback(map: any) {
+    const onLoad = React.useCallback(function callback(map: google.maps.Map) {
         mapRef.current = map
     }, [])
 
-    const onUnmount = React.useCallback(function callback(map: any) {
-        mapRef.current = undefined
+    const onUnmount = React.useCallback(function callback(map: google.maps.Map) {
+        mapRef.current = null
     }, [])
 
-    const onClick = (loc: any) => {
-        if (props.mode === MODES.SET_MARKER) {
+    const onClick = (loc: google.maps.MapMouseEvent) => {
+        if (props.mode === MODES.SET_MARKER && loc.latLng) {
             const lat = loc.latLng.lat()
             const lng = loc.latLng.lng()
             const enteredName = prompt('Please enter name for marker') || 'Not Named Marker'
@@ -69,18 +69,19 @@ const MapTest = (props: mapProps) => {
         }
     }
 
-    const handleDrag = (e: any, marker: MarkerType) => {
-        const lat = e.latLng.lat()
-        const lng = e.latLng.lng()
-        dispatch(updateMarker(marker.id, {
-            id: marker.id,
-            name: marker.name,
-            position: {
-                lat: lat,
-                lng: lng
-            },
-        }));
-
+    const handleDrag = (e: google.maps.MapMouseEvent, marker: MarkerType) => {
+        if (e.latLng) {
+            const lat = e.latLng.lat()
+            const lng = e.latLng.lng()
+            dispatch(updateMarker(marker.id, {
+                id: marker.id,
+                name: marker.name,
+                position: {
+                    lat: lat,
+                    lng: lng
+                },
+            }));
+        }
     }
 
     return (
