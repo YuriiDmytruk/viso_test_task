@@ -3,7 +3,7 @@ import { useJsApiLoader } from '@react-google-maps/api';
 
 import Map from './components/Map'
 import { MODES } from './components/Map'
-import ControlPanel from './components/ControlPanel';
+import MarkersControlPanel from './components/MarkersControlPanel';
 
 //const API_KEY = process.env.REACT_APP_API_KEY || ''
 
@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <div>
-      <ControlPanel toggleMode={toggleMode} mode={mode}/>
+      <MarkersControlPanel toggleMode={toggleMode} mode={mode}/>
       {isLoaded ? <Map mode={mode} /> : <>LOADING</>}
     </div>
   );
