@@ -19,28 +19,33 @@ const db = getDatabase();
 
 export const getMarkers = async (): Promise<MarkerType[]> => {
     try {
-      const dbRef = ref(db);
-      const snapshot = await get(child(dbRef, 'markers/'));
-  
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        const procesedData = data.map((e: MarkerTypeDB) => {return {
-            id: e.id,
-            name: e.name,
-            position: {
-                lat: e.location.lat,
-                lng: e.location.lng
-            }
-        }})
-        return procesedData;
-      } else {
-        return [] ;
-      }
+        const dbRef = ref(db);
+        const snapshot = await get(child(dbRef, 'markers/'));
+
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            console.log(data)
+            const procesedData = data
+                .filter((e: MarkerTypeDB) => e !== undefined && e !== null)
+                .map((e: MarkerTypeDB) => {
+                    return {
+                        id: e.id,
+                        name: e.name,
+                        position: {
+                            lat: e.location.lat,
+                            lng: e.location.lng
+                        }
+                    }
+                })
+            return procesedData;
+        } else {
+            return [];
+        }
     } catch (error) {
-      console.error("Error getting markers:", error);
-      throw error;
+        console.error("Error getting markers:", error);
+        throw error;
     }
-  };
+};
 
 export const updateMarkerDB = async (marker: MarkerType) => {
     try {
@@ -51,7 +56,7 @@ export const updateMarkerDB = async (marker: MarkerType) => {
             timestamp: Date.now()
         })
     }
-    catch(error){
+    catch (error) {
         console.log(`Error updating marker in Firebase: ${error}`)
     }
 }
@@ -60,7 +65,7 @@ export const deleteMarkerDB = async (id: number) => {
     try {
         await remove(ref(db, `markers/${id}`))
     }
-    catch(error){
+    catch (error) {
         console.log(`Error deleting marker in Firebase: ${error}`)
     }
 };
@@ -69,7 +74,7 @@ export const deleteAllMarkersDB = async () => {
     try {
         await remove(ref(db, `markers/`))
     }
-    catch(error){
+    catch (error) {
         console.log(`Error deleting all marker in Firebase: ${error}`)
     }
 }
